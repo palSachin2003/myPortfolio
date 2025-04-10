@@ -1,13 +1,42 @@
 'use client'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { TypeAnimation } from 'react-type-animation'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 
 const HeroSection = () => {
+  const [showPopup, setShowPopup] = useState(true)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setShowPopup(true)
+  
+      // Hide popup after 2 seconds
+      setTimeout(() => {
+        setShowPopup(false)
+      }, 2000)
+    }, 3000)
+  
+    return () => clearInterval(interval)
+  }, [])
+
   return (
     <section className='lg:py-16'>
+      {/* Popup Message */}
+      {showPopup && (
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.4 }}
+          className='fixed md:top-24 top-16 right-0 z-50 bg-[#420505] border border-white text-white px-4 py-3 rounded-lg shadow-lg'
+        >
+          🎉 I’m currently exploring new job opportunities!
+        </motion.div>
+      )}
+
+      {/* Main Content */}
       <div className='grid grid-cols-1 sm:grid-cols-12'>
         <motion.div
           initial={{ opacity: 0, scale: 0.5 }}
@@ -19,7 +48,7 @@ const HeroSection = () => {
             <span className='text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-secondary-600'>
               Hello, I&apos;m{' '}
             </span>
-            <br></br>
+            <br />
             <TypeAnimation
               sequence={[
                 'Sachin Kumar Pal',
@@ -40,11 +69,6 @@ const HeroSection = () => {
             I am a passionate and detail-oriented MERN Stack Developer with a
             strong focus on building responsive, user-friendly web applications.
           </p>
-          {/* <p className='text-[#ADB7BE] text-base sm:text-lg mb-6 lg:text-xl'>
-            I love turning ideas into real-world web experiences. Whether it’s
-            frontend or backend, I enjoy crafting smooth and impactful
-            solutions.
-          </p> */}
 
           <div>
             <Link
@@ -63,6 +87,7 @@ const HeroSection = () => {
             </Link>
           </div>
         </motion.div>
+
         <motion.div
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
